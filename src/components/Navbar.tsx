@@ -39,6 +39,11 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between container-padding">
         <div className="flex items-center">
+          <img 
+            src="/lovable-uploads/a1851fb0-46a6-4cc7-897f-d89c9ffcfc6c.png" 
+            alt="Sutra Logo" 
+            className="h-8 w-auto mr-3" 
+          />
           <span className="text-2xl font-bold text-sutra-blue">SUTRA</span>
           <span className="ml-2 bg-sutra-purple text-white py-1 px-2 rounded text-xs">HACKATHON</span>
         </div>
