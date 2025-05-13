@@ -34,7 +34,7 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white shadow-md py-2"
-          : "bg-transparent py-4"
+          : "bg-white py-4"
       }`}
     >
       <div className="container mx-auto flex items-center justify-between container-padding">
@@ -49,7 +49,7 @@ const Navbar = () => {
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium hover:text-sutra-purple transition-colors"
+              className="text-sm font-medium text-gray-700 hover:text-sutra-purple transition-colors"
             >
               {link.name}
             </a>
@@ -74,7 +74,7 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium hover:text-sutra-purple transition-colors"
+                className="text-sm font-medium text-gray-700 hover:text-sutra-purple transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
