@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import RegisterButton from "./RegisterButton";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,9 +54,7 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <Button className="bg-sutra-purple hover:bg-sutra-blue text-white">
-            Register Now
-          </Button>
+          <RegisterButton className="bg-sutra-purple hover:bg-sutra-blue text-white" />
         </div>
 
         {/* Mobile Navigation Toggle */}
@@ -81,9 +80,7 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
-            <Button className="bg-sutra-purple hover:bg-sutra-blue text-white w-full">
-              Register Now
-            </Button>
+            <RegisterButton className="bg-sutra-purple hover:bg-sutra-blue text-white w-full" />
           </div>
         </div>
       )}

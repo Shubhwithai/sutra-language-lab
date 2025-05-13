@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Calendar, Users } from "lucide-react";
+import RegisterButton from "./RegisterButton";
 
 const HeroSection = () => {
   return (
@@ -32,9 +33,7 @@ const HeroSection = () => {
         </div>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-          <Button size="lg" className="bg-white text-sutra-blue hover:bg-sutra-light-blue">
-            Register Now
-          </Button>
+          <RegisterButton size="lg" className="bg-white text-sutra-blue hover:bg-sutra-light-blue" />
           <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
             Learn More
           </Button>
