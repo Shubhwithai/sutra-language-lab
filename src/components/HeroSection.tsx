@@ -14,12 +14,12 @@ const HeroSection = () => {
         <div className="inline-block bg-white/10 backdrop-blur-md px-4 py-1 rounded-full mb-4">
           <p className="text-white/90 text-sm font-medium flex items-center">
             <Calendar size={16} className="mr-2" />
-            Registration Deadline: June 15, 2025
+            Registration Deadline: June 25, 2025
           </p>
         </div>
         
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-          SUTRA Indic AI Hackathon
+          India AI Challenge Powered By SUTRA
         </h1>
         
         <div className="max-w-3xl mx-auto">
@@ -46,7 +46,7 @@ const HeroSection = () => {
           </div>
           <div className="flex items-center">
             <Calendar size={20} className="mr-2" />
-            <span>June 16 - July 6, 2025</span>
+            <span>June 26 - July 13, 2025</span>
           </div>
           <div className="flex items-center">
             <span className="font-semibold text-white">Prizes Worth ₹300,000+</span>

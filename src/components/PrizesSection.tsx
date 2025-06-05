@@ -57,7 +57,7 @@ const PrizesSection = () => {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Career Opportunities */}
           <Card className="card-with-hover">
             <CardContent className="p-6 text-center">
@@ -90,12 +90,17 @@ const PrizesSection = () => {
               <p className="text-gray-600">Qualification for SUTRA Champion Program for Top 20 Teams</p>
             </CardContent>
           </Card>
-        </div>
 
-        <div className="mt-12 text-center">
-          <p className="text-gray-700">
-            <span className="font-semibold">Additional Perks:</span> Certificate of participation for all teams
-          </p>
+          {/* Additional Perks */}
+          <Card className="card-with-hover">
+            <CardContent className="p-6 text-center">
+              <div className="bg-sutra-light-blue rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Award className="h-8 w-8 text-sutra-blue" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Additional Perks</h3>
+              <p className="text-gray-600">Certificate of participation for all teams</p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

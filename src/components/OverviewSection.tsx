@@ -25,12 +25,12 @@ const OverviewSection = () => {
           
           <div className="lg:w-1/2">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
-              About The Hackathon
+              About The Challenge
             </h2>
             
             <div className="space-y-4 text-gray-700">
               <p>
-                The SUTRA Indic AI Hackathon invites innovators to harness the power of Large 
+                The Sutra Indic AI Hackathon invites innovators to harness the power of Large 
                 Language Models (LLMs) to create transformative applications serving India's 
                 diverse linguistic landscape.
               </p>

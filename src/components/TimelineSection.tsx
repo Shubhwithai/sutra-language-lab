@@ -5,45 +5,46 @@ import { Calendar } from "lucide-react";
 const TimelineSection = () => {
   const timelineEvents = [
     {
-      date: "June 1, 2025",
+      date: "June 12, 2025",
       event: "Registration Opens",
       description: "Start of the registration period for all interested participants",
     },
     {
-      date: "June 15, 2025",
+      date: "June 25, 2025",
       event: "Registration Closes",
       description: "Last day to register for the hackathon",
       important: true,
     },
     {
-      date: "June 16, 2025",
+      date: "June 26, 2025",
       event: "Kickoff Session",
       description: "Virtual orientation and introduction to the hackathon",
     },
     {
-      date: "June 18, 2025",
+      date: "June 28, 2025",
       event: "Team Submission Deadline",
       description: "Deadline for submitting your team details",
+      important: true,
     },
     {
-      date: "June 20, 2025",
+      date: "July 1, 2025",
       event: "Round 1: Proposal Submission",
-      description: "Deadline for submitting your project idea and proposal",
+      description: "Deadline for submitting your project idea and proposal. Top 100 teams qualify for final round.",
       important: true,
     },
     {
-      date: "June 30, 2025",
+      date: "July 10, 2025",
       event: "Round 2: Final Submission",
-      description: "Deadline for submitting your completed project",
+      description: "Deadline for submitting your completed project with demo video",
       important: true,
     },
     {
-      date: "July 1-4, 2025",
+      date: "July 10-12, 2025",
       event: "Round 3: Evaluations & Interviews",
       description: "Judging and project evaluation period",
     },
     {
-      date: "July 6, 2025",
+      date: "July 13, 2025",
       event: "Demo Day",
       description: "Final presentations and announcement of winners",
       important: true,
@@ -56,7 +57,7 @@ const TimelineSection = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">Event Timeline</h2>
           <p className="text-gray-700">
-            Key dates and deadlines for the SUTRA Indic AI Hackathon
+            Key dates and deadlines for the India AI Challenge
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Book, Github, Linkedin, Youtube, Link } from "lucide-react";
+import { Book, Github, Linkedin, Youtube, Link, Instagram } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ResourcesSection = () => {
@@ -60,6 +60,11 @@ const ResourcesSection = () => {
       icon: <Link className="h-5 w-5" />,
     },
     {
+      name: "Instagram",
+      url: "https://www.instagram.com/two_platforms",
+      icon: <Instagram className="h-5 w-5" />,
+    },
+    {
       name: "GitHub",
       url: "https://github.com/sutra-dev",
       icon: <Github className="h-5 w-5" />,
@@ -79,6 +84,25 @@ const ResourcesSection = () => {
       title: "Technical Support",
       content: "For using provided tools and platforms",
     },
+    {
+      title: "Virtual Workshops",
+      content: "Documentation and tutorials on Generative AI technologies and key topics in AI and EdTech",
+    },
+  ];
+
+  const submissionRequirements = [
+    {
+      title: "Team Submission (Due June 28, 2025)",
+      content: "Include team details, preferred focus area, and commitment to multilingual focus",
+    },
+    {
+      title: "Idea Submission (Due July 1, 2025)",
+      content: "Use PPT template with problem statement, solution, and technical approach (max 10-12 slides). Include social media postcard.",
+    },
+    {
+      title: "Final Submission (Due July 10, 2025)",
+      content: "GitHub repository, README, 3-5 minute demo video, presentation slides (max 15), and optional live deployment",
+    },
   ];
 
   return (
@@ -87,14 +111,14 @@ const ResourcesSection = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">Resources and Support</h2>
           <p className="text-gray-700">
-            Everything you need to excel in the SUTRA Indic AI Hackathon
+            Everything you need to excel in the India AI Challenge
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           <div>
             <h3 className="text-2xl font-semibold mb-6">Important Links</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-4">
               {resourceLinks.map((resource, index) => (
                 <a 
                   key={index} 
@@ -114,7 +138,7 @@ const ResourcesSection = () => {
               ))}
             </div>
 
-            <h3 className="text-2xl font-semibold mt-12 mb-6">Follow SUTRA</h3>
+            <h3 className="text-2xl font-semibold mt-8 mb-6">Follow Build Fast with AI</h3>
             <div className="flex flex-wrap gap-4">
               {socialLinks.map((social, index) => (
                 <a 
@@ -133,7 +157,7 @@ const ResourcesSection = () => {
           
           <div>
             <h3 className="text-2xl font-semibold mb-6">Support Available</h3>
-            <Card className="bg-sutra-light-blue/30 border-none">
+            <Card className="bg-sutra-light-blue/30 border-none mb-6">
               <CardHeader>
                 <CardTitle>Event Support</CardTitle>
               </CardHeader>
@@ -141,18 +165,39 @@ const ResourcesSection = () => {
                 {supportInformation.map((info, index) => (
                   <div key={index} className="border-b border-sutra-light-blue pb-4 last:border-0">
                     <h4 className="font-semibold mb-1">{info.title}</h4>
-                    <p className="text-gray-700">{info.content}</p>
+                    <p className="text-gray-700 text-sm">{info.content}</p>
                   </div>
                 ))}
               </CardContent>
             </Card>
             
-            <div className="mt-8 bg-gradient-to-r from-sutra-blue to-sutra-purple text-white rounded-lg p-8">
+            <div className="bg-gradient-to-r from-sutra-blue to-sutra-purple text-white rounded-lg p-6">
               <h3 className="text-xl font-bold mb-4">Get Your API Key</h3>
-              <p className="mb-6">Sign up to receive your Sutra developer API key and start building with multilingual AI capabilities.</p>
+              <p className="mb-6 text-sm">Sign up to receive your Sutra developer API key and start building with multilingual AI capabilities.</p>
               <Button variant="outline" className="bg-white hover:bg-sutra-light-blue text-sutra-blue border-none">
                 Get API Key
               </Button>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-2xl font-semibold mb-6">Submission Requirements</h3>
+            <div className="space-y-4">
+              {submissionRequirements.map((req, index) => (
+                <Card key={index} className="bg-white border">
+                  <CardContent className="p-4">
+                    <h4 className="font-semibold text-sutra-blue mb-2">{req.title}</h4>
+                    <p className="text-gray-700 text-sm">{req.content}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            
+            <div className="mt-6 p-4 bg-sutra-orange/10 rounded-lg border border-sutra-orange/20">
+              <h4 className="font-semibold text-sutra-blue mb-2">Social Media Requirement</h4>
+              <p className="text-gray-700 text-sm">
+                Tag @TWOPlatforms and use hashtags: #SUTRAHackathon #MultilingualAI #AIforIndia
+              </p>
             </div>
           </div>
         </div>
