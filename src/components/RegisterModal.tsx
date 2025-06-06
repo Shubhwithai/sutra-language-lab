@@ -33,17 +33,23 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { X } from "lucide-react";
+import { X, Plus, Trash2 } from "lucide-react";
 
 // Define the form validation schema using Zod
 const formSchema = z.object({
   teamName: z.string().min(3, "Team name must be at least 3 characters"),
-  teamLeaderName: z.string().min(2, "Name must be at least 2 characters"),
-  teamLeaderEmail: z.string().email("Invalid email address"),
-  teamLeaderPhone: z.string().min(10, "Please enter a valid phone number"),
-  teamMembers: z.string(),
+  teamLeaderName: z.string().min(2, "Team leader name is required"),
+  teamLeaderEmail: z.string().email("A valid email is required"),
+  contactNumber: z.string().regex(/^[0-9]{10}$/, "Please enter a valid 10-digit phone number"),
+  university: z.string().min(5, "University, City, and State are required"),
+  teamMembers: z.array(z.object({
+    name: z.string().min(1, "Member name is required"),
+    email: z.string().email("Valid email is required")
+  })).min(1, "At least 1 additional team member is required").max(4, "Maximum 4 additional members allowed"),
   focusArea: z.string().min(1, "Please select a focus area"),
-  projectIdea: z.string().min(20, "Please provide a brief description of your project idea"),
+  focusAreaDescription: z.string().min(100, "Description must be at least 100 words").max(200, "Description must be at most 200 words"),
+  languages: z.string().min(10, "Please list 3-5 Indian languages"),
+  multilingualCommitment: z.string().min(100, "Commitment description must be at least 100 words").max(200, "Commitment description must be at most 200 words"),
   agreedToTerms: z.boolean().refine(val => val === true, {
     message: "You must agree to the terms and conditions",
   }),
@@ -57,40 +63,92 @@ type RegisterModalProps = {
 };
 
 const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
+  const [teamMembers, setTeamMembers] = useState([{ name: "", email: "" }]);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       teamName: "",
       teamLeaderName: "",
       teamLeaderEmail: "",
-      teamLeaderPhone: "",
-      teamMembers: "",
+      contactNumber: "",
+      university: "",
+      teamMembers: [{ name: "", email: "" }],
       focusArea: "",
-      projectIdea: "",
+      focusAreaDescription: "",
+      languages: "",
+      multilingualCommitment: "",
       agreedToTerms: false,
     },
   });
 
+  const addTeamMember = () => {
+    if (teamMembers.length < 4) {
+      const newMembers = [...teamMembers, { name: "", email: "" }];
+      setTeamMembers(newMembers);
+      form.setValue("teamMembers", newMembers);
+    } else {
+      toast.error("Maximum of 5 team members (including leader) allowed.");
+    }
+  };
+
+  const removeTeamMember = (index: number) => {
+    const newMembers = teamMembers.filter((_, i) => i !== index);
+    setTeamMembers(newMembers);
+    form.setValue("teamMembers", newMembers);
+  };
+
+  const updateTeamMember = (index: number, field: "name" | "email", value: string) => {
+    const newMembers = [...teamMembers];
+    newMembers[index][field] = value;
+    setTeamMembers(newMembers);
+    form.setValue("teamMembers", newMembers);
+  };
+
+  const countWords = (text: string) => {
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
+
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted:", data);
     
-    // Here you would typically send this data to your backend
-    // For now, we'll just show a success message
-    toast.success("Registration submitted successfully! We'll be in touch soon.", {
+    // Validate word counts
+    const focusWordCount = countWords(data.focusAreaDescription);
+    const commitmentWordCount = countWords(data.multilingualCommitment);
+    
+    if (focusWordCount < 100 || focusWordCount > 200) {
+      toast.error("Focus area description must be between 100-200 words");
+      return;
+    }
+    
+    if (commitmentWordCount < 100 || commitmentWordCount > 200) {
+      toast.error("Multilingual commitment must be between 100-200 words");
+      return;
+    }
+
+    // Validate languages
+    const languageList = data.languages.split(',').map(lang => lang.trim()).filter(lang => lang.length > 0);
+    if (languageList.length < 3 || languageList.length > 5) {
+      toast.error("Please list 3-5 Indian languages, separated by commas");
+      return;
+    }
+    
+    toast.success("Team registration submitted successfully! We'll be in touch soon.", {
       duration: 5000,
     });
     
     // Reset form and close modal
     form.reset();
+    setTeamMembers([{ name: "", email: "" }]);
     onClose();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-2xl">Hackathon Registration</DialogTitle>
+            <DialogTitle className="text-2xl">India AI Challenge Powered by SUTRA - Team Submission</DialogTitle>
             <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full">
               <X className="h-4 w-4" />
             </Button>
@@ -102,43 +160,18 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="teamName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Team Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your team name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="teamLeaderName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Team Leader Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter team leader's full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Team Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Team Information</h3>
+              
               <FormField
                 control={form.control}
-                name="teamLeaderEmail"
+                name="teamName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Team Leader Email</FormLabel>
+                    <FormLabel>Team Name <span className="text-red-500">*</span></FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="email@example.com" {...field} />
+                      <Input placeholder="Enter your team name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -147,12 +180,56 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
 
               <FormField
                 control={form.control}
-                name="teamLeaderPhone"
+                name="teamLeaderName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Team Leader Phone</FormLabel>
+                    <FormLabel>Team Leader Name <span className="text-red-500">*</span></FormLabel>
                     <FormControl>
-                      <Input placeholder="Contact number" {...field} />
+                      <Input placeholder="Enter team leader's full name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="teamLeaderEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Team Leader Email <span className="text-red-500">*</span></FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="email@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="contactNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contact Number <span className="text-red-500">*</span></FormLabel>
+                      <FormControl>
+                        <Input placeholder="10-digit phone number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="university"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>University, City, State <span className="text-red-500">*</span></FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., IIT Delhi, New Delhi, Delhi" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,73 +237,150 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="teamMembers"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Team Members</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="List your team members with their names and emails (one per line)"
-                      className="min-h-[80px]"
-                      {...field} 
+            {/* Team Members */}
+            <div className="space-y-4">
+              <div>
+                <Label className="text-base font-semibold">Team Members (2–5 members, including leader) <span className="text-red-500">*</span></Label>
+                <p className="text-sm text-gray-500">Add 1–4 additional team members (the team leader is already counted as one member).</p>
+              </div>
+              
+              {teamMembers.map((member, index) => (
+                <div key={index} className="flex space-x-2 items-end">
+                  <div className="flex-1">
+                    <Input
+                      placeholder={`Member ${index + 1} Name`}
+                      value={member.name}
+                      onChange={(e) => updateTeamMember(index, "name", e.target.value)}
                     />
-                  </FormControl>
-                  <FormDescription>
-                    Teams can have up to 4 members including the team leader.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
+                  </div>
+                  <div className="flex-1">
+                    <Input
+                      type="email"
+                      placeholder={`Member ${index + 1} Email`}
+                      value={member.email}
+                      onChange={(e) => updateTeamMember(index, "email", e.target.value)}
+                    />
+                  </div>
+                  {teamMembers.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => removeTeamMember(index)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              ))}
+              
+              {teamMembers.length < 4 && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={addTeamMember}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Another Member
+                </Button>
               )}
-            />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="focusArea"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Focus Area</FormLabel>
-                  <Select 
-                    onValueChange={field.onChange} 
-                    defaultValue={field.value}
-                  >
+            {/* Focus Area */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Project Focus</h3>
+              
+              <FormField
+                control={form.control}
+                name="focusArea"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Preferred Focus Area <span className="text-red-500">*</span></FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a focus area" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Multilingual Education Platforms">Multilingual Education Platforms</SelectItem>
+                        <SelectItem value="Healthcare Accessibility">Healthcare Accessibility</SelectItem>
+                        <SelectItem value="Cultural Preservation and Engagement">Cultural Preservation and Engagement</SelectItem>
+                        <SelectItem value="Governance and Public Services">Governance and Public Services</SelectItem>
+                        <SelectItem value="Inclusive E-Commerce and Business">Inclusive E-Commerce and Business</SelectItem>
+                        <SelectItem value="Other">Other (Specify in description)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="focusAreaDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Focus Area Description <span className="text-red-500">*</span></FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your preferred focus area" />
-                      </SelectTrigger>
+                      <Textarea 
+                        placeholder="Describe your chosen focus area and problem statement (100–200 words)"
+                        className="min-h-[100px]"
+                        {...field} 
+                      />
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value="education">Multilingual Education Platforms</SelectItem>
-                      <SelectItem value="healthcare">Healthcare Accessibility</SelectItem>
-                      <SelectItem value="culture">Cultural Preservation and Engagement</SelectItem>
-                      <SelectItem value="governance">Governance and Public Services</SelectItem>
-                      <SelectItem value="commerce">Inclusive E-Commerce and Business</SelectItem>
-                      <SelectItem value="other">Other (Specify in Project Idea)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormDescription>
+                      Word count: {countWords(field.value)} / 100-200 words
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="projectIdea"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Idea</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Briefly describe your project idea and which Indian languages you plan to support"
-                      className="min-h-[120px]"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Multilingual Commitment */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Multilingual Focus</h3>
+              
+              <FormField
+                control={form.control}
+                name="languages"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Targeted Indian Languages (3–5 languages) <span className="text-red-500">*</span></FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., Hindi, Tamil, Telugu, Marathi, Bengali" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      List 3-5 Indian languages separated by commas
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="multilingualCommitment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Commitment to Multilingual Focus <span className="text-red-500">*</span></FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Explain how your solution will leverage SUTRA's multilingual capabilities to address the chosen problem (100–200 words)"
+                        className="min-h-[100px]"
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Word count: {countWords(field.value)} / 100-200 words
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
@@ -260,7 +414,7 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                 type="submit" 
                 className="bg-sutra-purple hover:bg-sutra-blue text-white"
               >
-                Register Team
+                Submit Team Details
               </Button>
             </DialogFooter>
           </form>
