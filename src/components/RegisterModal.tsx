@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -309,6 +308,7 @@ const RegisterModal = ({ isOpen, onClose }: RegisterModalProps) => {
                         <SelectItem value="Cultural Preservation and Engagement">Cultural Preservation and Engagement</SelectItem>
                         <SelectItem value="Governance and Public Services">Governance and Public Services</SelectItem>
                         <SelectItem value="Inclusive E-Commerce and Business">Inclusive E-Commerce and Business</SelectItem>
+                        <SelectItem value="Agricultural Innovation and Farmer Support">Agricultural Innovation and Farmer Support</SelectItem>
                         <SelectItem value="Other">Other (Specify in description)</SelectItem>
                       </SelectContent>
                     </Select>
