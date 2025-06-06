@@ -16,8 +16,8 @@ const CTASection = () => {
             Join innovators from across India in creating solutions that make AI accessible in every language.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <RegisterButton size="lg" className="bg-white text-sutra-blue hover:bg-sutra-light-blue" />
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+            <RegisterButton size="lg" className="bg-white text-sutra-blue hover:bg-sutra-light-blue hover:text-sutra-purple" />
+            <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-sutra-purple transition-all duration-200">
               Learn More
             </Button>
           </div>
