@@ -1,11 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Calendar, Users } from "lucide-react";
 import RegisterButton from "./RegisterButton";
-
 const HeroSection = () => {
-  return (
-    <section className="pt-28 pb-16 md:pt-40 md:pb-24 bg-gradient-to-br from-sutra-blue to-sutra-purple relative overflow-hidden">
+  return <section className="pt-28 pb-16 md:pt-40 md:pb-24 bg-gradient-to-br from-sutra-blue to-sutra-purple relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-64 h-64 bg-sutra-light-purple opacity-10 rounded-full blur-3xl animate-pulse-slow"></div>
       <div className="absolute bottom-10 right-10 w-80 h-80 bg-sutra-orange opacity-10 rounded-full blur-3xl animate-pulse-slow"></div>
@@ -34,7 +31,7 @@ const HeroSection = () => {
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <RegisterButton size="lg" className="bg-white text-sutra-blue hover:bg-sutra-light-blue hover:text-sutra-purple" />
-          <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-sutra-purple transition-all duration-200">
+          <Button size="lg" variant="outline" className="border-2 border-white hover:bg-white transition-all duration-200 text-slate-950">
             Learn More
           </Button>
         </div>
@@ -58,14 +55,16 @@ const HeroSection = () => {
       <div className="hidden md:block absolute -bottom-8 left-1/4 transform -translate-x-1/2 p-3 bg-white/10 backdrop-blur-sm rounded-full animate-float">
         <span className="text-white font-medium">हिन्दी</span>
       </div>
-      <div className="hidden md:block absolute bottom-16 left-1/2 transform -translate-x-1/2 p-3 bg-white/10 backdrop-blur-sm rounded-full animate-float" style={{ animationDelay: "1s" }}>
+      <div className="hidden md:block absolute bottom-16 left-1/2 transform -translate-x-1/2 p-3 bg-white/10 backdrop-blur-sm rounded-full animate-float" style={{
+      animationDelay: "1s"
+    }}>
         <span className="text-white font-medium">தமிழ்</span>
       </div>
-      <div className="hidden md:block absolute -bottom-4 left-3/4 transform -translate-x-1/2 p-3 bg-white/10 backdrop-blur-sm rounded-full animate-float" style={{ animationDelay: "2s" }}>
+      <div className="hidden md:block absolute -bottom-4 left-3/4 transform -translate-x-1/2 p-3 bg-white/10 backdrop-blur-sm rounded-full animate-float" style={{
+      animationDelay: "2s"
+    }}>
         <span className="text-white font-medium">ಕನ್ನಡ</span>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
